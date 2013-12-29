@@ -5,6 +5,7 @@ import org.scalatest.junit.JUnitRunner
 import org.scalatest.FlatSpec
 import org.scalatest.Matchers
 import com.gzeliga.playground.algorithms.Algorutils
+import com.gzeliga.playground.algorithms.sort.QuickSort
 
 @RunWith(classOf[JUnitRunner])
 class TestQuicksort extends FlatSpec with Matchers {
@@ -24,4 +25,15 @@ class TestQuicksort extends FlatSpec with Matchers {
     }
   }
 
+  "Two arrays {2,1,6,4} and {7,5,3}" should "return {1,2,3,4,5,6,7} after execution" in {
+    QuickSort.sort(List(2,1,6,4,7,5,3)) should be (List(1,2,3,4,5,6,7))
+  }  
+
+  "A single list of ints {8,2,7,3,5,3,8,1,0,1,8}" should " be ordered as {0,1,1,2,3,3,5,7,8,8,8}" in {
+    QuickSort.sort(List(8,2,7,3,5,3,8,1,0,1,8)) should be (List(0,1,1,2,3,3,5,7,8,8,8))
+  }
+
+  "A single array of strings {G,U,I,L,L,E,R,M,O}" should " be ordered as {E, G, I, L, L, M, O, R, U}" in {
+    QuickSort.sort(List("G","U","I","L","L","E","R","M","O")) should be (List("E", "G", "I", "L", "L", "M", "O", "R", "U"))
+  }
 }
