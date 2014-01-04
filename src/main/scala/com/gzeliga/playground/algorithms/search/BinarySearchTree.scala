@@ -1,35 +1,60 @@
 package com.gzeliga.playground.algorithms.search
 
 trait Node[+K, +V] {
-  val left: Node[K, V]
-  val right: Node[K, V]
-  val key: K
-  val value: V
-  val size: Int
+  def left: Node[K, V]
+  def right: Node[K, V]
+  def key: K
+  def value: V
+  def size: Int
 }
 
 object Empty extends Node[Nothing, Nothing] {
-  val left = throw new NoSuchElementException("Nil node does not containt left node")
-  val right = throw new NoSuchElementException("Nil node does not containt right node")
-  val key: Nothing = throw new NoSuchElementException("Nil node does not containt key")
-  val value: Nothing = throw new NoSuchElementException("Nil node does not containt value")
-  val size = throw new NoSuchElementException("Nil node does not containt size")
+  override def left = throw new NoSuchElementException("Empty node does not containt left node")
+  override def right = throw new NoSuchElementException("Empty node does not containt right node")
+  override def key: Nothing = throw new NoSuchElementException("Empty node does not containt key")
+  override def value: Nothing = throw new NoSuchElementException("Empty node does not containt value")
+  override val size = 0
 }
 
-class Leaf[K, V](val key: K, val value: V) extends Node[K, V] {
-  val left = Empty
-  val right = Empty
-  val size = 0
-}
+case class Leaf[K, V](val key: K, val value: V, val left: Node[K, V], val right: Node[K, V]) extends Node[K, V] {
+  lazy val size = {
 
-class SingleNode[K, V](val key: K, val value: V, val size: Int, val left: Node[K, V] = Empty, val right: Node[K, V] = Empty) extends Node[K, V]
+    def getSize(current: Node[K, V]): Int = {
+      current match {
+        case Empty => Empty.size
+        case Leaf(key, value, left, right) => left.size + right.size + 1
+      }
+    }
+
+    getSize(left) + getSize(right) + 1
+  }
+
+}
 
 class BinarySearchTree[K, V] {
 
-  private val root: Node[K, V] = Empty
+  private var root: Node[K, V] = Empty
 
   def size() = root.size
-  
-  def put(n: Node[K,V])(implicit ord: Ordering[K]) = ???
-  
+
+  def put(key: K, value: V)(implicit ord: Ordering[K]) = {
+
+    def doPut(current: Node[K, V]): Node[K, V] = {
+      current match {
+        case Empty => new Leaf(key, value, Empty, Empty)
+        case Leaf(k, v, left, right) => {
+          if (ord.gt(key, k)) {
+            new Leaf(k, v, left, doPut(right))
+          } else if (ord.lt(key, k)) {
+            new Leaf(k, v, doPut(left), right)
+          } else {
+            new Leaf(k, value, left, right)
+          }
+        }
+      }
+    }
+
+    root = doPut(root)
+
+  }
 }
