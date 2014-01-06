@@ -70,6 +70,9 @@ class BinarySearchDictionary[K, V](val capacity: Int)(implicit ev1: ClassTag[K],
 
   }
 
+  /*
+   * Returns the number of keys that are smaller than K, whether K exists or not 
+   * */
   def rank(key: K): Int = {
 
     def doRank(low: Int, high: Int): Int = {
