@@ -111,9 +111,71 @@ class BinarySearchTree[K, V] {
 
     doMax(root, None)
 
-  }  
- 
-  def floor(key:K): K = ???
-  def ceiling(key:K): K = ???
+  }
+
+  def floor(key: K)(implicit ord: Ordering[K]): Option[K] = {
+
+    def doFloor(current: Node[K, V]): Option[K] = {
+      current match {
+        case Leaf => None
+        case Branch(k, v, left, right) =>
+          if (key == k) Some(k)
+          else if (ord.lt(key, k)) doFloor(left)
+          else {
+            doFloor(right) match {
+              case None => Some(k)
+              case v @ Some(_) => v
+            }
+          }
+      }
+    }
+
+    doFloor(root)
+
+  }
+
+  def ceiling(key: K)(implicit ord: Ordering[K]): Option[K] = {
+
+    def doCeiling(current: Node[K, V]): Option[K] = {
+      current match {
+        case Leaf => None
+        case Branch(k, v, left, right) =>
+          if (key == k) Some(k)
+          else if (ord.gt(key, k)) doCeiling(right)
+          else {
+            doCeiling(left) match {
+              case None => Some(k)
+              case v @ Some(_) => v
+            }
+          }
+      }
+    }
+
+    doCeiling(root)
+
+  }
+
+  def select(rank: Int): Option[Node[K, V]] = {
+    def doSelect(current: Node[K, V], crank: Int): Option[Node[K, V]] = {
+
+      current match {
+        case Leaf => None
+        case Branch(k, v, left, right) => {
+          if (left.size > crank) doSelect(left, crank)
+          else if (left.size < crank) doSelect(right, crank - left.size - 1)
+          else Some(current)
+        }
+      }
+
+    }
+
+    doSelect(root, rank)
+
+  }
+
+  def deleteMin() = ???
+  def delete(key: K) = ???
+  
+  def keys(): Traversable[K] = ???
   
 }

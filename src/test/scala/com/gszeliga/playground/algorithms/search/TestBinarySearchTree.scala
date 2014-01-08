@@ -74,7 +74,7 @@ class TestBinarySearchTree  extends FlatSpec with Matchers {
     
   }  
 
-  "If a put several elements within a BST I " must "be able to retrieve the maximum entry" in {
+  it must "be able to retrieve the maximum entry" in {
 
     val tree = new BinarySearchTree[String, Int]
     
@@ -87,5 +87,43 @@ class TestBinarySearchTree  extends FlatSpec with Matchers {
     tree.max should equal (Some("Marta"))
     
   }    
+ 
+  it must "be able to retrieve the floor of a key" in {
+
+    val tree = new BinarySearchTree[String, Int]
+    
+    tree.put("S", 1)
+    tree.put("E", 2)
+    tree.put("A", 3)
+    tree.put("C", 4)
+    tree.put("R", 5)
+    tree.put("H", 6)
+    tree.put("M", 7)
+    tree.put("X", 8)
+    
+    tree.floor("G") should equal (Some("E"))
+    tree.floor("C") should equal (Some("C"))
+    
+  }
+  
+  it must "be able to retrieve the ceiling of a key" in {
+
+    val tree = new BinarySearchTree[String, Int]
+    
+    tree.put("S", 1)
+    tree.put("E", 2)
+    tree.put("A", 3)
+    tree.put("C", 4)
+    tree.put("R", 5)
+    tree.put("H", 6)
+    tree.put("M", 7)
+    tree.put("X", 8)
+    
+    tree.ceiling("Q") should equal (Some("R"))
+    tree.ceiling("B") should equal (Some("C"))
+    
+  }
+
+  
   
 }
