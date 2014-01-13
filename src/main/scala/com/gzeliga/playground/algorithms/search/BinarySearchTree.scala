@@ -83,19 +83,21 @@ class BinarySearchTree[K, V] {
 
   }
 
-  def min: Option[K] = {
+  def min(cn: Node[K, V]): Node[K, V] = {
 
-    def doMin(cn: Node[K, V], latest: Option[K]): Option[K] = {
-
-      cn match {
-        case Leaf => latest
-        case Branch(k, v, left, right) => doMin(left, Some(k))
-      }
-
+    cn match {
+      case Leaf => Leaf
+      case b @ Branch(k, v, Leaf, right) => b
+      case Branch(k, v, left, right) => min(left)
     }
 
-    doMin(root, None)
+  }
 
+  def min: Option[K] = {
+    min(root) match {
+      case Branch(k, _, _, _) => Some(k)
+      case _ => None
+    }
   }
 
   def max: Option[K] = {
@@ -173,9 +175,44 @@ class BinarySearchTree[K, V] {
 
   }
 
-  def deleteMin() = ???
-  def delete(key: K) = ???
-  
+  private def deleteMin(current: Node[K, V]): Node[K, V] = {
+
+    current match {
+      case Leaf => Leaf
+      case Branch(k, v, Leaf, right) => right
+      case Branch(k, v, left, right) => new Branch(k, v, deleteMin(left), right)
+    }
+
+  }
+
+  def deleteMin: Unit = {
+    root = deleteMin(root)
+  }
+
+  def delete(key: K)(implicit ord: Ordering[K]) = {
+
+    def doDelete(current: Node[K, V]): Node[K, V] = {
+      current match {
+        case Leaf => Leaf
+        case Branch(k, v, left, right) if ord.gt(key, k) => new Branch(k, v, left, doDelete(right))
+        case Branch(k, v, left, right) if ord.lt(key, k) => new Branch(k, v, doDelete(left), right)
+        case Branch(k, v, Leaf, right) => right
+        case Branch(k, v, left, Leaf) => left
+        case Branch(k, v, left, right) => {
+          val t = min(right)
+        		  
+          //1- Search for the minimum on the right
+          //2- We create a new branch with the left side of the deleted node plus the right side minus the min from the right side
+          new Branch(t.key, t.value, left, deleteMin(right))
+
+        }
+      }
+    }
+
+    root = doDelete(root)
+
+  }
+
   def keys(): Traversable[K] = ???
-  
+
 }
