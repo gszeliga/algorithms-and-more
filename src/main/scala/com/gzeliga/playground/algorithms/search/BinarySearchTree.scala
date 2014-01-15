@@ -1,6 +1,7 @@
 package com.gzeliga.playground.algorithms.search
 
 import scala.Some
+import scala.annotation.tailrec
 
 trait Node[+K, +V] {
   def left: Node[K, V]
@@ -200,7 +201,7 @@ class BinarySearchTree[K, V] {
         case Branch(k, v, left, Leaf) => left
         case Branch(k, v, left, right) => {
           val t = min(right)
-        		  
+
           //1- Search for the minimum on the right
           //2- We create a new branch with the left side of the deleted node plus the right side minus the min from the right side
           new Branch(t.key, t.value, left, deleteMin(right))
@@ -213,6 +214,33 @@ class BinarySearchTree[K, V] {
 
   }
 
-  def keys(): Traversable[K] = ???
+  private def keys(start: Node[K, V], low: K, high: K)(implicit ord: Ordering[K]): List[K] = {
+
+    def step(current: Node[K, V], elems: List[K]): List[K] = {
+
+      current match {
+        case Branch(k, v, left, right) if ord.lteq(low, k) && ord.gteq(high, k) => step(right, step(left, elems) :+ k)
+        case Branch(k, v, left, right) if ord.gt(low, k) => step(right, elems)
+        case Branch(k, v, left, right) if ord.lt(low, k) => step(left, elems)
+        case _ => elems
+      }
+    }
+
+    step(start, Nil)
+  }
+
+  def keys(low: K, high: K)(implicit ord: Ordering[K]): List[K] = {
+    keys(root, low, high)
+  }
+
+  //http://nurkiewicz.blogspot.com/2013/05/lazy-sequences-in-scala-and-clojure.html
+  def keys(implicit ord: Ordering[K]): List[K] = {
+    {
+      for {
+        mn <- min
+        mx <- max
+      } yield keys(root, mn, mx)
+    } getOrElse Nil
+  }
 
 }
