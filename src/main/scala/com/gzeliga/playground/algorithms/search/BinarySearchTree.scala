@@ -3,7 +3,7 @@ package com.gzeliga.playground.algorithms.search
 import scala.Some
 import scala.annotation.tailrec
 
-trait Node[+K, +V] {
+sealed trait Node[+K, +V] {
   def left: Node[K, V]
   def right: Node[K, V]
   def key: K
@@ -19,7 +19,7 @@ object Leaf extends Node[Nothing, Nothing] {
   override val size = 0
 }
 
-case class Branch[K, V](val key: K, val value: V, val left: Node[K, V], val right: Node[K, V]) extends Node[K, V] {
+sealed case class Branch[K, V](val key: K, val value: V, val left: Node[K, V], val right: Node[K, V]) extends Node[K, V] {
   lazy val size = {
     {
 
