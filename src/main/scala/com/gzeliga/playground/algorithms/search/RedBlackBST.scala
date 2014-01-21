@@ -2,7 +2,7 @@ package com.gzeliga.playground.algorithms.search
 
 class RedBlackBST[K, V] {
 
-  sealed trait Node[+K, +V] {
+  trait Node[+K, +V] {
     def left: Node[K, V]
     def right: Node[K, V]
     def key: K
@@ -14,8 +14,8 @@ class RedBlackBST[K, V] {
   }
 
   object Leaf extends Node[Nothing, Nothing] {
-    override def left = throw new NoSuchElementException("Empty node does not containt left node")
-    override def right = throw new NoSuchElementException("Empty node does not containt right node")
+    override def left = throw new NoSuchElementException("Empty node does not containt left branch")
+    override def right = throw new NoSuchElementException("Empty node does not containt right branch")
     override def key: Nothing = throw new NoSuchElementException("Empty node does not containt key")
     override def value: Nothing = throw new NoSuchElementException("Empty node does not containt value")
     override val size = 0
@@ -38,53 +38,56 @@ class RedBlackBST[K, V] {
     }
   }
 
-  private def rotateLeft(source: Node[K, V]): Node[K, V] = {
+  private def balanceColors = {
 
-    //New RED node
-    val redNode = new Branch(source.key, source.value, source.left, source.right.left, true);
-    val toRightNode = new Branch(source.right.key, source.right.value, redNode, source.right.right, source.color);
+    def rotateLeft(source: Node[K, V]): Node[K, V] = {
 
-    toRightNode
-  }
+      //New RED node
+      val redNode = new Branch(source.key, source.value, source.left, source.right.left, true);
+      val toRightNode = new Branch(source.right.key, source.right.value, redNode, source.right.right, source.color);
 
-  private def rotateRight(source: Node[K, V]): Node[K, V] = {
+      toRightNode
+    }
 
-    //New RED node
-    val redNode = new Branch(source.key, source.value, source.left.right, source.right, true)
-    val toLeftNode = new Branch(source.right.key, source.right.value, source.left.left, redNode, source.color)
+    def rotateRight(source: Node[K, V]): Node[K, V] = {
 
-    toLeftNode
+      //New RED node
+      val redNode = new Branch(source.key, source.value, source.left.right, source.right, true)
+      val toLeftNode = new Branch(source.left.key, source.left.value, source.left.left, redNode, source.color)
 
-  }
+      toLeftNode
 
-  private def flipColors(source: Node[K, V]): Node[K, V] = {
+    }
 
-    //Make both child nodes black
-    val leftNode = new Branch(source.left.key, source.left.value, source.left.left, source.left.right, false)
-    val rightNode = new Branch(source.right.key, source.right.value, source.right.left, source.right.right, false)
+    def flipColors(source: Node[K, V]): Node[K, V] = {
 
-    //Make parent red
-    new Branch(source.key, source.value, leftNode, rightNode, true)
+      //Make both child nodes black
+      val leftNode = new Branch(source.left.key, source.left.value, source.left.left, source.left.right, false)
+      val rightNode = new Branch(source.right.key, source.right.value, source.right.left, source.right.right, false)
+
+      //Make parent red
+      new Branch(source.key, source.value, leftNode, rightNode, true)
+
+    }
+
+    def onlyIf[T](precond: T => Boolean)(step: Function1[T, T]): PartialFunction[T, T] = {
+      case n if precond(n) => step(n)
+      case n => n
+    }
+
+    val rotateToLeft = onlyIf[Node[K, V]](n => n.right.isRed && !n.left.isRed)(rotateLeft)
+    val rotateToRight = onlyIf[Node[K, V]](n => n.left.isRed && n.left.left.isRed)(rotateRight)
+    val flipNodeColors = onlyIf[Node[K, V]](n => n.left.isRed && n.right.isRed)(flipColors)
+
+    rotateToLeft.andThen(rotateToRight).andThen(flipNodeColors)
 
   }
 
   private[this] var root: Node[K, V] = Leaf
 
-  def put(key: K, value: V)(ord: Ordering[K]) = {
+  def size() = root.size
 
-    def balanceColors(node: Node[K, V]): Node[K, V] = {
-
-      var tmp = node
-
-      //Cannot have leaned-right red nodes
-      if (tmp.right.isRed && !tmp.left.isRed) tmp = rotateLeft(tmp)
-      //Cannot have two continuous red nodes
-      if (tmp.left.isRed && tmp.left.left.isRed) tmp = rotateRight(tmp)
-      if (tmp.left.isRed && tmp.right.isRed) tmp = flipColors(tmp)
-
-      tmp
-
-    }
+  def put(key: K, value: V)(implicit ord: Ordering[K]) = {
 
     def doPut(current: Node[K, V]): Node[K, V] = {
       current match {
@@ -96,11 +99,11 @@ class RedBlackBST[K, V] {
     }
 
     //Root node must always be black
-    val newRoot = doPut(root) match {
+    root = doPut(root) match {
       case Branch(k, v, left, right, _) => new Branch(k, v, left, right, false)
       case _ => Leaf
     }
-
+   
   }
 
 }
