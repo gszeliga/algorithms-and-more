@@ -219,7 +219,7 @@ class BinarySearchTree[K, V] {
     def step(current: Node[K, V], elems: List[K]): List[K] = {
 
       current match {
-        case Branch(k, v, left, right) if ord.lteq(low, k) && ord.gteq(high, k) => step(right, step(left, elems) :+ k)
+        case Branch(k, v, left, right) if ord.lteq(low, k) && ord.gteq(high, k) => step(right, step(left, elems) :+ k) 
         case Branch(k, v, left, right) if ord.gt(low, k) => step(right, elems)
         case Branch(k, v, left, right) if ord.lt(low, k) => step(left, elems)
         case _ => elems

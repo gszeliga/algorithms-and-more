@@ -170,4 +170,21 @@ class TestBinarySearchTree extends FlatSpec with Matchers {
 
   }  
   
+  
+  it must "be able to retrieve all keys in order" in {
+
+    val tree = new BinarySearchTree[String, Int]
+
+    tree.put("S", 1)
+    tree.put("E", 2)
+    tree.put("A", 3)
+    tree.put("C", 4)
+    tree.put("R", 5)
+    tree.put("H", 6)
+    tree.put("M", 7)
+    tree.put("X", 8)
+
+    tree.keys should equal(List("A","C","E","H","M","R","S","X"))
+  }    
+  
 }

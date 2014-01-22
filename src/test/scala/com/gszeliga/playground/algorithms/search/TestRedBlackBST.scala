@@ -21,6 +21,53 @@ class TestRedBlackBST extends FlatSpec with Matchers{
     tree.put("Liliana", 59)
 
     tree.size should be(5)
+    
+    
+    println(tree)
+
+  }  
+
+  "If a put 10 elements size" must "be 10" in {
+
+    val tree = new RedBlackBST[String, Int]
+
+    tree.put("S", 1)
+    tree.put("E", 2)
+    tree.put("A", 3)
+    tree.put("R", 4)
+    tree.put("C", 5)
+    tree.put("H", 6)
+    tree.put("X", 7)
+    tree.put("M", 8)
+    tree.put("P", 9)
+    tree.put("L", 10)
+
+    tree.size should be(10)
+    
+    
+    println(tree)
+
+  }
+  
+  "If a put 10 elements in ordered sequence size" must "be 10" in {
+
+    val tree = new RedBlackBST[String, Int]
+
+    tree.put("A", 1)
+    tree.put("C", 2)
+    tree.put("E", 3)
+    tree.put("H", 4)
+    tree.put("L", 5)
+    tree.put("M", 6)
+    tree.put("P", 7)
+    tree.put("R", 8)
+    tree.put("S", 9)
+    tree.put("X", 10)
+
+    tree.size should be(10)
+    
+    
+    println(tree)
 
   }  
   

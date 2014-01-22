@@ -9,7 +9,7 @@ object test {
   stream1 take (3) force                          //> res0: scala.collection.immutable.Stream[Int] = Stream(0, 1, 2)
 
   val tree = new BinarySearchTree[String, Int]    //> tree  : com.gzeliga.playground.algorithms.search.BinarySearchTree[String,Int
-                                                  //| ] = com.gzeliga.playground.algorithms.search.BinarySearchTree@e4ac00c
+                                                  //| ] = com.gzeliga.playground.algorithms.search.BinarySearchTree@33010058
 
   tree.put("J", 34)
   tree.put("U", 37)
@@ -18,11 +18,11 @@ object test {
   tree.put("Z", 59)
   tree.put("C", 99)
 
-  val s = tree.keys                               //> s  : List[String] = List(A, C, J, U, X, Z)
-  val s1 = tree.keys("J", "Z")                    //> s1  : List[String] = List(J, U, X, Z)
+  val s = tree.keys                               //> s  : List[String] = List(C, A, Z, X, U, J)
+  val s1 = tree.keys("J", "Z")                    //> s1  : List[String] = List(Z, X, U, J)
 
   val other = new BinarySearchTree[String, Int]   //> other  : com.gzeliga.playground.algorithms.search.BinarySearchTree[String,In
-                                                  //| t] = com.gzeliga.playground.algorithms.search.BinarySearchTree@7290cb03
+                                                  //| t] = com.gzeliga.playground.algorithms.search.BinarySearchTree@630045eb
 
   other.keys                                      //> res1: List[String] = List()
 
