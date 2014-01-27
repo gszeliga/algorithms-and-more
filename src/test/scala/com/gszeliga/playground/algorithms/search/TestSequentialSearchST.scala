@@ -15,7 +15,6 @@ class TestSequentialSearchST extends FlatSpec with Matchers{
     
     val st = new SequentialSearchST[String, Int]()
     
-    
     st.put("Guillermo", 22)
     st.put("Fernando", 12)
     st.put("Eduardo", 10)

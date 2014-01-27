@@ -2,7 +2,7 @@ package com.gzeliga.playground.algorithms.search
 
 object RedBlackBST {
 
-  private trait Node[+K, +V] {
+  private sealed trait Node[+K, +V] {
     def left: Node[K, V]
     def right: Node[K, V]
     def key: K
@@ -25,7 +25,7 @@ object RedBlackBST {
 
   }
 
-  private sealed case class Branch[K, V](val key: K, val value: V, val left: Node[K, V], val right: Node[K, V], val color: Boolean) extends Node[K, V] {
+  private case class Branch[K, V](val key: K, val value: V, val left: Node[K, V], val right: Node[K, V], val color: Boolean) extends Node[K, V] {
     lazy val size = {
       {
 

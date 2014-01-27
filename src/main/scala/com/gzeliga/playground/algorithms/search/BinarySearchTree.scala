@@ -19,7 +19,7 @@ object Leaf extends Node[Nothing, Nothing] {
   override val size = 0
 }
 
-sealed case class Branch[K, V](val key: K, val value: V, val left: Node[K, V], val right: Node[K, V]) extends Node[K, V] {
+private case class Branch[K, V](val key: K, val value: V, val left: Node[K, V], val right: Node[K, V]) extends Node[K, V] {
   lazy val size = {
     {
 
@@ -219,7 +219,7 @@ class BinarySearchTree[K, V] {
     def step(current: Node[K, V], elems: List[K]): List[K] = {
 
       current match {
-        case Branch(k, v, left, right) if ord.lteq(low, k) && ord.gteq(high, k) => step(right, step(left, elems) :+ k) 
+        case Branch(k, v, left, right) if ord.lteq(low, k) && ord.gteq(high, k) => step(right, step(left, elems) :+ k)
         case Branch(k, v, left, right) if ord.gt(low, k) => step(right, elems)
         case Branch(k, v, left, right) if ord.lt(low, k) => step(left, elems)
         case _ => elems

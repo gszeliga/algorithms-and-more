@@ -18,8 +18,8 @@ object test {
   tree.put("Z", 59)
   tree.put("C", 99)
 
-  val s = tree.keys                               //> s  : List[String] = List(C, A, Z, X, U, J)
-  val s1 = tree.keys("J", "Z")                    //> s1  : List[String] = List(Z, X, U, J)
+  val s = tree.keys                               //> s  : List[String] = List(A, C, J, U, X, Z)
+  val s1 = tree.keys("J", "Z")                    //> s1  : List[String] = List(J, U, X, Z)
 
   val other = new BinarySearchTree[String, Int]   //> other  : com.gzeliga.playground.algorithms.search.BinarySearchTree[String,In
                                                   //| t] = com.gzeliga.playground.algorithms.search.BinarySearchTree@630045eb
@@ -33,6 +33,10 @@ object test {
 	def addFour = addTwo.andThen(addTwo)      //> addFour: => Int => Int
 
   addFour(3)                                      //> res2: Int = 7
+
+	val a = new Array[Integer](2)             //> a  : Array[Integer] = Array(null, null)
+
+	a(1) = null
 
 
 }

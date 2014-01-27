@@ -2,7 +2,7 @@ package com.gzeliga.playground.algorithms.search
 
 object SequentialSearchST {
 
-  private trait Node[+K, +V] {
+  sealed private trait Node[+K, +V] {
     def key: K
     def value: V
     def next: Node[K, V]
@@ -14,7 +14,7 @@ object SequentialSearchST {
     def next = throw new NoSuchElementException("Empty element does not have next node")
   }
 
-  private sealed case class Element[K, V](val key: K, val value: V, val next: Node[K, V]) extends Node[K, V]
+  private case class Element[K, V](val key: K, val value: V, val next: Node[K, V]) extends Node[K, V]
 
   private def put[K, V](current: Node[K, V], key: K, value: V): Node[K, V] = {
     current match {
