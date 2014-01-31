@@ -14,19 +14,7 @@ object Bag {
     def next = throw new NoSuchElementException("Empty elements does not have a related next node")
   }
 
-  private def add[E](item: E, node: Node[E]): Node[E] = {
-
-    def loop(current: Node[E]): Node[E] = {
-
-      current match {
-        case Empty => new Elem(item, Empty)
-        case Elem(item, next) => new Elem(item, loop(next))
-      }
-
-    }
-
-    loop(node)
-  }
+  private def add[E](item: E, node: Node[E]): Node[E] = new Elem(item, node)
 
   private def values[E](node: Node[E]): Stream[E] = {
 
