@@ -1,31 +1,45 @@
 package com.gzeliga.playground.algorithms.graph
 
+import scala.collection.BitSet
+
 object test {
-  val graph = new UndirectedGraph(6)              //> graph  : com.gzeliga.playground.algorithms.graph.UndirectedGraph = 0: 
+  val g = new UndirectedGraph(6)                  //> g  : com.gzeliga.playground.algorithms.graph.UndirectedGraph = 0: 
                                                   //| 1: 
                                                   //| 2: 
                                                   //| 3: 
                                                   //| 4: 
                                                   //| 5: 
 
-  graph.addEdge(1, 2)
-  graph.addEdge(1, 3)
-  graph.addEdge(1, 1)
-  graph.addEdge(0, 3)
-  graph.addEdge(3, 3)
+  g.addEdge(0, 1)
+  g.addEdge(0, 2)
+  g.addEdge(0, 5)
+  g.addEdge(1, 2)
+  g.addEdge(2, 4)
+  g.addEdge(3, 2)
+  g.addEdge(3, 4)
+  g.addEdge(3, 5)
+	
+	g                                         //> res0: com.gzeliga.playground.algorithms.graph.UndirectedGraph = 0: 1 2 5 
+                                                  //| 1: 0 2 
+                                                  //| 2: 0 1 4 3 
+                                                  //| 3: 2 4 5 
+                                                  //| 4: 2 3 
+                                                  //| 5: 0 3 
   
- 	graph.degree(1)                           //> res0: Int = 4
- 	graph.degree(3)                           //> res1: Int = 4
- 
-	graph.avgDegree                           //> res2: Int = 1
-	graph.maxDegree                           //> res3: Int = 4
-  graph.numberOfSelfLoops                         //> res4: Int = 2
-  
-  graph                                           //> res5: com.gzeliga.playground.algorithms.graph.UndirectedGraph = 0: 3 
-                                                  //| 1: 1 1 3 2 
-                                                  //| 2: 1 
-                                                  //| 3: 3 3 0 1 
-                                                  //| 4: 
-                                                  //| 5: 
+  def search(graph: Graph, source: Int): BitSet = {
+	
+    def loop(tmp: BitSet, current: Int): BitSet = {
 
+      graph.adj(current).filterNot(tmp + current).foldLeft(tmp + current)((acc, a) => loop(acc, a))
+
+    }
+
+    loop(BitSet(), source)
+
+  }                                               //> search: (graph: com.gzeliga.playground.algorithms.graph.Graph, source: Int)s
+                                                  //| cala.collection.BitSet
+
+	val s = search(g, 0)                      //> s  : scala.collection.BitSet = BitSet(0, 1, 2, 3, 4, 5)
+	s.size                                    //> res1: Int = 6
+	
 }
