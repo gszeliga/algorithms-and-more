@@ -1,6 +1,7 @@
 package com.gzeliga.playground.algorithms.graph
 
 import scala.collection.BitSet
+import scala.collection.mutable.WrappedArray
 
 object test {
   val g = new UndirectedGraph(6)                  //> g  : com.gzeliga.playground.algorithms.graph.UndirectedGraph = 0: 
@@ -25,21 +26,16 @@ object test {
                                                   //| 3: 2 4 5 
                                                   //| 4: 2 3 
                                                   //| 5: 0 3 
-  
-  def search(graph: Graph, source: Int): BitSet = {
+   
+  val dfs = new DepthFirstSearch(g, 5)            //> dfs  : com.gzeliga.playground.algorithms.graph.DepthFirstSearch = com.gzelig
+                                                  //| a.playground.algorithms.graph.DepthFirstSearch@70cb6009
+
+	dfs.marked                                //> res1: scala.collection.immutable.BitSet = BitSet(0, 1, 2, 3, 4, 5)
+
+	val dfp = new DepthFirstPaths(g,1)        //> dfp  : com.gzeliga.playground.algorithms.graph.DepthFirstPaths = com.gzeliga
+                                                  //| .playground.algorithms.graph.DepthFirstPaths@2df6df4c
+	 
+	dfp.hasPathTo(3)                          //> res2: Boolean = true
 	
-    def loop(tmp: BitSet, current: Int): BitSet = {
-
-      graph.adj(current).filterNot(tmp + current).foldLeft(tmp + current)((acc, a) => loop(acc, a))
-
-    }
-
-    loop(BitSet(), source)
-
-  }                                               //> search: (graph: com.gzeliga.playground.algorithms.graph.Graph, source: Int)s
-                                                  //| cala.collection.BitSet
-
-	val s = search(g, 0)                      //> s  : scala.collection.BitSet = BitSet(0, 1, 2, 3, 4, 5)
-	s.size                                    //> res1: Int = 6
-	
+	dfp.pathTo(4)                             //> res3: Option[List[Int]] = Some(List(1, 2, 4))
 }

@@ -3,11 +3,13 @@ package com.gzeliga.playground.algorithms.graph
 import scala.collection.immutable.BitSet
 import scala.annotation.tailrec
 
+
+//Allow to know how many vertices are connected within the graph
 class DepthFirstSearch(val graph: Graph, val source: Int) {
 
-  val marked = search(graph, source)
+  val marked = dfs(graph, source)
 
-  private def search(graph: Graph, source: Int): BitSet = {
+  private def dfs(graph: Graph, source: Int): BitSet = {
 
     def loop(tmp: BitSet, current: Int): BitSet = {
     		
@@ -17,10 +19,10 @@ class DepthFirstSearch(val graph: Graph, val source: Int) {
 
     }
 
-    loop(BitSet(), source)
+    loop(BitSet.empty, source)
 
   }
 
-  def size = marked.size
+  val size = marked.size
   
 }
