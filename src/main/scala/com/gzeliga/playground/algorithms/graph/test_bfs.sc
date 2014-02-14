@@ -16,12 +16,12 @@ object test_bfs {
   g.addEdge(3, 2)
   g.addEdge(3, 4)
   g.addEdge(3, 5)
-   
-     
+
   val bfs = new BreadthFirstSearch(g, 0)          //> bfs  : com.gzeliga.playground.algorithms.graph.BreadthFirstSearch = com.gzel
-                                                  //| iga.playground.algorithms.graph.BreadthFirstSearch@25a6cc45
-  
-  bfs.marked                                      //> res0: scala.collection.immutable.BitSet = BitSet(0, 1, 2, 3, 4, 5)
-  bfs.edgeTo                                      //> res1: Array[Int] = Array(0, 0, 0, 5, 2, 0)
-   
+                                                  //| iga.playground.algorithms.graph.BreadthFirstSearch@38dda25b
+
+  bfs.pathTo(3) toList                            //> res0: List[Stream[Int]] = List(Stream(0, 5, 3))
+
+  (0 until 3)                                     //> res1: scala.collection.immutable.Range = Range(0, 1, 2)
+
 }

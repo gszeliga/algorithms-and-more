@@ -2,11 +2,13 @@ package com.gzeliga.playground.algorithms.graph
 
 import scala.collection.immutable.BitSet
 import com.gzeliga.playground.algorithms.fundamentals.Queue
+import scala.annotation.tailrec
 
 class BreadthFirstSearch(val g: Graph, val s: Int) {
 
-  val (marked, edgeTo) = {
+  private val (marked, edgeTo) = {
 
+    @tailrec
     def loop(pending: Queue[Int], marked: BitSet, edgeTo: Array[Int]): Option[(BitSet, Array[Int])] = {
 
       if (pending.isEmpty) Some(marked, edgeTo)
@@ -22,8 +24,9 @@ class BreadthFirstSearch(val g: Graph, val s: Int) {
                 (queue.enqueue(edge), marked + edge) //Enqueue the adjacent vertex and mark it as visited
               } else (queue, marked)
           }
-        } flatMap {
-          case (eq, me) => loop(eq, me, edgeTo)
+        } match {
+          case Some((eq, me)) => loop(eq, me, edgeTo)
+          case _ => None //I don't know if it could be the case but anyway...
         }
 
       }
@@ -37,4 +40,22 @@ class BreadthFirstSearch(val g: Graph, val s: Int) {
 
   }
 
+  def hasPathTo(v: Int) = marked(v)
+  
+  def pathTo(v: Int): Option[Stream[Int]] = {
+	
+    def loop(current: Int): Stream[Int] = {
+      
+      if(current == s) s #:: Stream.empty
+      else {
+        current #:: loop(edgeTo(current))
+      }
+      
+    }
+    
+    if(!hasPathTo(v)) None
+    else Some(loop(v) reverse)
+    
+  }
+  
 }

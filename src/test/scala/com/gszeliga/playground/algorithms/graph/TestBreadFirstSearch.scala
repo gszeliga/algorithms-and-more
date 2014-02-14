@@ -1,18 +1,17 @@
-package com.gszeliga.playground.algorithms.graphs
+package com.gszeliga.playground.algorithms.graph
 
-import org.scalatest.FlatSpec
-import org.scalatest.Matchers
 import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner
+import org.scalatest.FlatSpec
+import org.scalatest.Matchers
 import com.gzeliga.playground.algorithms.graph.UndirectedGraph
 import com.gzeliga.playground.algorithms.graph.BreadthFirstSearch
 
 @RunWith(classOf[JUnitRunner])
-class TestBreadthFirstSearch extends FlatSpec with Matchers {
+class TestBreadFirstSearch extends FlatSpec with Matchers {
 
-  behavior of "Breadth-First Search"
+  "Shortest path to 1 from 4" must "be [4,2,3]" in {
 
-  "If I look for the shortest path from 0 then" must "be XXX" in {
     val g = new UndirectedGraph(6)
 
     g.addEdge(0, 1)
@@ -24,11 +23,10 @@ class TestBreadthFirstSearch extends FlatSpec with Matchers {
     g.addEdge(3, 4)
     g.addEdge(3, 5)
 
-    val bfs = new BreadthFirstSearch(g, 0)
-    
-    
+    val bfs = new BreadthFirstSearch(g, 4)
 
-    
+    bfs.pathTo(1).get.toList should be(List(4, 2, 1))
+
   }
 
 }

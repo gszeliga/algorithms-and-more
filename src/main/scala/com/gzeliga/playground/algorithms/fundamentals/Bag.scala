@@ -26,7 +26,7 @@ object Bag {
     }
 
     loop(node)
-
+ 
   }  
   
 }
