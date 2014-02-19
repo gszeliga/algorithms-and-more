@@ -18,7 +18,7 @@ object test_bfs {
   g.addEdge(3, 5)
 
   val bfs = new BreadthFirstSearch(g, 0)          //> bfs  : com.gzeliga.playground.algorithms.graph.BreadthFirstSearch = com.gzel
-                                                  //| iga.playground.algorithms.graph.BreadthFirstSearch@38dda25b
+                                                  //| iga.playground.algorithms.graph.BreadthFirstSearch@5705b99f
 
   bfs.pathTo(3) toList                            //> res0: List[Stream[Int]] = List(Stream(0, 5, 3))
 

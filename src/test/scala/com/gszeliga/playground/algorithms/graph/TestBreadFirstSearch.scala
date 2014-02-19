@@ -10,6 +10,8 @@ import com.gzeliga.playground.algorithms.graph.BreadthFirstSearch
 @RunWith(classOf[JUnitRunner])
 class TestBreadFirstSearch extends FlatSpec with Matchers {
 
+  behavior of "Breadth-First Search"
+
   "Shortest path to 1 from 4" must "be [4,2,3]" in {
 
     val g = new UndirectedGraph(6)

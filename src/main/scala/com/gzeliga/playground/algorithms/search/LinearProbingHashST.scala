@@ -68,6 +68,9 @@ class LinearProbingHashST[K, V](private var M: Int = 16)(implicit cond: ClassTag
   def get(key: K): Option[V] = {
     locate(key) map { pos => values(pos) }
   }
+  
+  def contains(key: K): Boolean = !locate(key).isEmpty
+  
 
   def delete(key: K): Unit = {
 
