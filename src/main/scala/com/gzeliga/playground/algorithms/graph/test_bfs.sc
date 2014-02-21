@@ -23,5 +23,8 @@ object test_bfs {
   bfs.pathTo(3) toList                            //> res0: List[Stream[Int]] = List(Stream(0, 5, 3))
 
   (0 until 3)                                     //> res1: scala.collection.immutable.Range = Range(0, 1, 2)
+  
+  
+  
 
 }

@@ -1,5 +1,6 @@
 package com.gzeliga.playground.algorithms.fundamentals
 
+//This is a crappy queue, it's just for fun
 trait Queue[E] {
 
   protected[fundamentals] def last: Node[E]

@@ -16,37 +16,54 @@ import com.gzeliga.playground.algorithms.search.LinearProbingHashST
 trait SymbolGraph {
 
   def contains(key: String): Boolean
-  def index(key: String): Int
-  def name(v: Int): String
+  def index(key: String): Option[Int]
+  def name(v: Int): Option[String]
 }
 
 class FileSymbolGraph(source: File, delimiter: String) extends SymbolGraph {
 
-  val (st, size) = Source.fromFile(source).getLines.map { _.split(delimiter) }.foldLeft((new LinearProbingHashST[String, Int](97), 0)) {
-   
+  private val (st, size, inverted) = Source.fromFile(source).getLines.map { _.split(delimiter) }.foldLeft((new LinearProbingHashST[String, Int](97), 0, Vector[String]())) {
+
     (acc, a) =>
 
       a.foldLeft(acc) { (acc, s) =>
 
-        val m = acc._1
+        val st = acc._1
         val i = acc._2
+        val inverted = acc._3
 
-        if (!m.contains(s)) {
+        if (!st.contains(s)) {
           //Should've done the ST immutable...damn
-          m.put(s, i)
-          (m, i + 1)
-        } else (m, i)
+          st.put(s, i)
+          (st, i + 1, inverted :+ s)
+        } else acc
 
       }
 
   }
-  
-  val inverted = new Array[String](size)
-  
-  
-  
-  def contains(key: String) = ???
-  def index(key: String) = ???
-  def name(v: Int) = ???
 
+  val G = new UndirectedGraph(size)
+
+  Source.fromFile(source).getLines.map { _.split(delimiter) } foreach { a =>
+
+    /*
+     * 1- First, we convert the first label into a vertex index
+     * 2- Then, we map each label -> (firt_vertex, vertex) so that we have each edge ready to be added
+     * 3- Drop the first entry since it's equal to (firt_vertex,firt_vertex)
+     * 4- Load each edge into the graph
+     * */
+
+    val label_index = st.get(a(0))
+
+    a.view.map(l => (label_index, st.get(l))).drop(1).foreach { edge =>
+
+      edge._1 map (v => edge._2 map (w => G.addEdge(v, w)))
+
+    }
+
+  }
+
+  def contains(key: String) = st.contains(key)
+  def index(key: String) = st.get(key)
+  def name(v: Int) = inverted.lift(v)
 }

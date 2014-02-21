@@ -1,8 +1,8 @@
 package com.gzeliga.playground.algorithms.graph
 
 import scala.collection.immutable.BitSet
-import com.gzeliga.playground.algorithms.fundamentals.Queue
 import scala.annotation.tailrec
+import scala.collection.immutable.Queue
 
 class BreadthFirstSearch(val g: Graph, val s: Int) {
 
@@ -15,18 +15,15 @@ class BreadthFirstSearch(val g: Graph, val s: Int) {
       else {
         val (nextv, newqueue) = pending.dequeue
 
-        nextv map { current =>
-          g.adj(current).foldLeft((newqueue, marked)) {
-            case ((queue, marked), edge) =>
-              //First time we can reach the adjacent vertex from current? (This helps retrieving the shortest path)
-              if (!marked.contains(edge)) {
-                edgeTo(edge) = current
-                (queue.enqueue(edge), marked + edge) //Enqueue the adjacent vertex and mark it as visited
-              } else (queue, marked)
-          }
+        g.adj(nextv).foldLeft((newqueue, marked)) {
+          case ((queue, marked), edge) =>
+            //First time we can reach the adjacent vertex from current? (This helps retrieving the shortest path)
+            if (!marked.contains(edge)) {
+              edgeTo(edge) = nextv
+              (queue.enqueue(edge), marked + edge) //Enqueue the adjacent vertex and mark it as visited
+            } else (queue, marked)
         } match {
-          case Some((eq, me)) => loop(eq, me, edgeTo)
-          case _ => None //I don't know if it could be the case but anyway...
+          case (a, b) => loop(a, b, edgeTo)
         }
 
       }
@@ -41,21 +38,21 @@ class BreadthFirstSearch(val g: Graph, val s: Int) {
   }
 
   def hasPathTo(v: Int) = marked(v)
-  
+
   def pathTo(v: Int): Option[Stream[Int]] = {
-	
+
     def loop(current: Int): Stream[Int] = {
-      
-      if(current == s) s #:: Stream.empty
+
+      if (current == s) s #:: Stream.empty
       else {
         current #:: loop(edgeTo(current))
       }
-      
+
     }
-    
-    if(!hasPathTo(v)) None
+
+    if (!hasPathTo(v)) None
     else Some(loop(v) reverse)
-    
+
   }
-  
+
 }
