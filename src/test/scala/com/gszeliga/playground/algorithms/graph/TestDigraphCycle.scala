@@ -40,7 +40,7 @@ class TestDigraphCycle extends FlatSpec with Matchers {
 
     val dc = new DirectedCycle(g)
 
-    dc.cycle should be(Some(Stack(3, 5, 7, 4, 3)))
+    dc.cycle should be(Some(Seq(3, 5, 7, 4, 3)))
 
   }
 
