@@ -23,6 +23,13 @@ sealed case class Edge(private val v: Int, private val w: Int, val weight: Doubl
 
 }
 
+object EdgeOrdering extends Ordering[Edge] {
+  def compare(thiz: Edge, that: Edge) = {
+    //We need to invert natural order since we want from minimum weight from maximum weight.
+    -(thiz compare that)
+  }
+}
+
 class EdgeWeightedGraph(val V: Int) {
 
   private val adjacency = new Array[Bag[Edge]](V) map (_ => new Bag[Edge])

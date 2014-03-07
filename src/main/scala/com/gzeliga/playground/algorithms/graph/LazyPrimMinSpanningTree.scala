@@ -5,13 +5,6 @@ import scala.collection.immutable.Queue
 import scala.collection.mutable.PriorityQueue
 import scala.annotation.tailrec
 
-object EdgeOrdering extends Ordering[Edge] {
-  def compare(thiz: Edge, that: Edge) = {
-    //We need to invert natural order since we want from minimum weight from maximum weight.
-    -(thiz compare that)
-  }
-}
-
 class LazyPrimMinSpanningTree(G: EdgeWeightedGraph) {
 
   //MST edges
@@ -29,7 +22,7 @@ class LazyPrimMinSpanningTree(G: EdgeWeightedGraph) {
       val v = edge.either
       val w = edge.other(v)
 
-      //If current edge is not ineligible (something like we've been there)
+      //If current edge is not ineligible (meaning that we have two vertices that already are on the tree)
       if (!(marked(v) && marked(w))) {
 
         val newmst = cmst.enqueue(edge)

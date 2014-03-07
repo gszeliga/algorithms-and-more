@@ -38,4 +38,5 @@ object test {
 	dfp.hasPathTo(3)                          //> res2: Boolean = true
 	
 	dfp.pathTo(4)                             //> res3: Option[List[Int]] = Some(List(1, 2, 4))
+	
 }
