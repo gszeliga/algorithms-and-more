@@ -3,7 +3,7 @@ package com.gzeliga.playground.algorithms.graph
 import com.gzeliga.playground.algorithms.fundamentals.Bag
 import java.net.URL
 import scala.io.Source
- 
+
 sealed case class DirectedEdge(private val v: Int, private val w: Int, val weight: Double) {
 
   def from = v
@@ -13,7 +13,7 @@ sealed case class DirectedEdge(private val v: Int, private val w: Int, val weigh
 
 }
 
-class EdgeWeightedDigraph(val V: Int) {
+class EdgeWeightedDigraph(val V: Int) extends Digraph {
 
   private val adjacency = new Array[Bag[DirectedEdge]](V) map (_ => new Bag[DirectedEdge])
 
@@ -26,7 +26,11 @@ class EdgeWeightedDigraph(val V: Int) {
     edgen = edgen + 1
   }
 
-  def adj(v: Int): Seq[DirectedEdge] = adjacency(v).values
+  def reverse: Digraph = ???
+
+  def adjE(v: Int): Seq[DirectedEdge] = adjacency(v).values
+
+  override def adj(v: Int): Stream[Int] = adjacency(v).values map (_.to)
 
   def edges: Seq[DirectedEdge] = {
     adjacency.foldLeft(new Bag[DirectedEdge]) { (acc, b) =>
@@ -50,7 +54,9 @@ object EdgeWeightedDigraph {
       acc.addEdge(new DirectedEdge(parts(0).toInt, parts(1).toInt, parts(2).toDouble))
       acc
     }
-    
+
   }
+
+  def apply(V: Int) = new EdgeWeightedDigraph(V)
 
 }

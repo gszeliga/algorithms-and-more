@@ -5,7 +5,6 @@ import com.gzeliga.playground.algorithms.fundamentals.Bag
 trait Digraph {
   def V: Int
   def E: Int
-  def addEdge(v: Int, w: Int)
   def adj(v: Int): Stream[Int]
   def reverse: Digraph
 }

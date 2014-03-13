@@ -15,9 +15,7 @@ class DepthFirstOrder(G: Digraph) {
       //We mark vertex and add it to the pre list 
       val (mrk, pre, post, reverse) = (state._1 + v, state._2.enqueue(v), state._3, state._4)
 
-      val ns = G.adj(v).filterNot(mrk).foldLeft((mrk, pre, post, reverse)) { (st, w) =>
-        dfs(w, st)
-      }
+      val ns = G.adj(v).filterNot(mrk).foldRight((mrk, pre, post, reverse))(dfs)
 
       //Add vertex to the post and reversePost 
       (ns._1, ns._2, ns._3.enqueue(v), ns._4.push(v))

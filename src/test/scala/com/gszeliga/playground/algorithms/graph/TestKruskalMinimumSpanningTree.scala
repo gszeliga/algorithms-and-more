@@ -21,7 +21,7 @@ class TestKruskalMinimumSpanningTree extends FlatSpec with Matchers {
     
     mst.edges should have length 7
 
-    mst.edges should contain allOf (Edge(0, 7, 0.16), Edge(1, 7, 0.19), Edge(0, 2, 0.26), Edge(2, 3, 0.17), Edge(5, 7, 0.28), Edge(4, 5, 0.35), Edge(6, 2, 0.4))    
+    mst.edges should contain only (Edge(0, 7, 0.16), Edge(1, 7, 0.19), Edge(0, 2, 0.26), Edge(2, 3, 0.17), Edge(5, 7, 0.28), Edge(4, 5, 0.35), Edge(6, 2, 0.4))    
     
   } 
   
