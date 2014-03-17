@@ -50,7 +50,7 @@ object EdgeWeightedDigraph {
     val g = lines.take(1).map(s => new EdgeWeightedDigraph(s.toInt)).next
 
     lines.drop(1).foldLeft(g) { (acc, l) =>
-      val parts = l.split(" ")
+      val parts = l.split("\\s+")
       acc.addEdge(new DirectedEdge(parts(0).toInt, parts(1).toInt, parts(2).toDouble))
       acc
     }
