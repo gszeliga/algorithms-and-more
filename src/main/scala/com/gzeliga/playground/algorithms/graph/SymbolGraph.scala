@@ -5,7 +5,6 @@ import scala.io.Source
 import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
 import java.util.concurrent.ConcurrentHashMap
-import sun.misc.AtomicLong
 import java.util.concurrent.atomic.AtomicInteger
 import scala.concurrent.Promise
 import scala.util.{ Success, Failure }
