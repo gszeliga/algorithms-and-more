@@ -1,12 +1,11 @@
 package com.gzeliga.playground.algorithms.amazon;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.BitSet;
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
-
-import scala.actors.threadpool.Arrays;
 
 public class Movie {
 
