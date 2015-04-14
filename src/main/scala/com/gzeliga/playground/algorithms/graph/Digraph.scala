@@ -16,9 +16,11 @@ class DirectedGraph( final val V: Int) extends Digraph {
 
   def E = edges
 
-  def addEdge(v: Int, w: Int) = {
+  def addEdge(v: Int, w: Int): DirectedGraph= {
     adjacency(v).add(w)
     edges = edges + 1
+
+    this
   }
 
   def adj(v: Int) = adjacency(v).values
