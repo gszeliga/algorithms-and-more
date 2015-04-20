@@ -30,5 +30,6 @@ object DirectedDFS {
 
   def apply(G: Digraph, s: Int): DirectedDFS = new DirectedDFS(G, List(s))
   def apply(G: Digraph, sources: Int*): DirectedDFS = new DirectedDFS(G, sources)
+  /*def apply(G: Digraph, sources: Seq[Int]): DirectedDFS = new DirectedDFS(G, sources)*/
 
 }

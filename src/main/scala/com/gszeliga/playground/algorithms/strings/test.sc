@@ -1,4 +1,4 @@
-package com.gzeliga.playground.algorithms.strings
+package com.gszeliga.playground.algorithms.strings
 
 import java.io.File
 
@@ -12,7 +12,7 @@ object test {
                                                   //| ,3), (Wilson,4))
                                                    
              
-                                                   
+                                                    
   KeyIndexCounting.order(kv, 5)                   //> res0: List[com.gzeliga.playground.algorithms.strings.KeyIndexEntry] = List((
                                                   //| Harris,1), (Martin,1), (Moore,1), (Anderson,2), (Martinez,2), (Miller,2), (R
                                                   //| obinson,2), (White,2), (Brown,3), (Davis,3), (Jackson,3), (Jones,3), (Taylor

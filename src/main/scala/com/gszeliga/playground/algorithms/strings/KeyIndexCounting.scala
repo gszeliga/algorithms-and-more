@@ -1,4 +1,4 @@
-package com.gzeliga.playground.algorithms.strings
+package com.gszeliga.playground.algorithms.strings
 
 import scala.io.Source
 import java.io.File
