@@ -4,7 +4,7 @@ import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner
 import org.scalatest.FlatSpec
 import org.scalatest.Matchers
-import com.gzeliga.playground.algorithms.search.RedBlackBST
+import com.gszeliga.playground.algorithms.search.RedBlackBST
 
 @RunWith(classOf[JUnitRunner])
 class TestRedBlackBST extends FlatSpec with Matchers{

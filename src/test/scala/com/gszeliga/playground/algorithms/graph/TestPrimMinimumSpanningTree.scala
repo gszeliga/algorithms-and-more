@@ -4,10 +4,10 @@ import org.scalatest.FlatSpec
 import org.scalatest.Matchers
 import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner
-import com.gzeliga.playground.algorithms.graph.EdgeWeightedGraph
-import com.gzeliga.playground.algorithms.graph.LazyPrimMinSpanningTree
-import com.gzeliga.playground.algorithms.graph.Edge
-import com.gzeliga.playground.algorithms.graph.EagerPrimMST
+import com.gszeliga.playground.algorithms.graph.EdgeWeightedGraph
+import com.gszeliga.playground.algorithms.graph.LazyPrimMinSpanningTree
+import com.gszeliga.playground.algorithms.graph.Edge
+import com.gszeliga.playground.algorithms.graph.EagerPrimMST
 
 @RunWith(classOf[JUnitRunner])
 class TestPrimMinimumSpanningTree extends FlatSpec with Matchers {

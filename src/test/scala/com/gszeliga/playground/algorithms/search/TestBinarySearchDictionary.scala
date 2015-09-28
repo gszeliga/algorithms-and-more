@@ -4,7 +4,7 @@ import org.scalatest.FlatSpec
 import org.scalatest.Matchers
 import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner
-import com.gzeliga.playground.algorithms.search.BinarySearchDictionary
+import com.gszeliga.playground.algorithms.search.BinarySearchDictionary
 
 @RunWith(classOf[JUnitRunner])
 class TestBinarySearch extends FlatSpec with Matchers {

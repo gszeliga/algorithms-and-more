@@ -4,10 +4,10 @@ import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner
 import org.scalatest.FlatSpec
 import org.scalatest.Matchers
-import com.gzeliga.playground.algorithms.graph.EdgeWeightedGraph
-import com.gzeliga.playground.algorithms.graph.EdgeWeightedDigraph
-import com.gzeliga.playground.algorithms.graph.DijkstraShortestPathTree
-import com.gzeliga.playground.algorithms.graph.DirectedEdge
+import com.gszeliga.playground.algorithms.graph.EdgeWeightedGraph
+import com.gszeliga.playground.algorithms.graph.EdgeWeightedDigraph
+import com.gszeliga.playground.algorithms.graph.DijkstraShortestPathTree
+import com.gszeliga.playground.algorithms.graph.DirectedEdge
 
 @RunWith(classOf[JUnitRunner])
 class TestDijkstraSPT extends FlatSpec with Matchers {

@@ -1,11 +1,9 @@
 package com.gszeliga.playground.algorithms.sort
 
+import com.gszeliga.playground.algorithms.Algorutils
 import org.junit.runner.RunWith
+import org.scalatest.{FlatSpec, Matchers}
 import org.scalatest.junit.JUnitRunner
-import org.scalatest.FlatSpec
-import org.scalatest.Matchers
-import com.gzeliga.playground.algorithms.Algorutils
-import com.gzeliga.playground.algorithms.sort.QuickSort
 
 @RunWith(classOf[JUnitRunner])
 class TestQuicksort extends FlatSpec with Matchers {

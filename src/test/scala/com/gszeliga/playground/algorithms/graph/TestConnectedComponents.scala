@@ -4,8 +4,8 @@ import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner
 import org.scalatest.FlatSpec
 import org.scalatest.Matchers
-import com.gzeliga.playground.algorithms.graph.UndirectedGraph
-import com.gzeliga.playground.algorithms.graph.ConnectedComponents
+import com.gszeliga.playground.algorithms.graph.UndirectedGraph
+import com.gszeliga.playground.algorithms.graph.ConnectedComponents
 
 @RunWith(classOf[JUnitRunner])
 class TestConnectedComponents extends FlatSpec with Matchers {

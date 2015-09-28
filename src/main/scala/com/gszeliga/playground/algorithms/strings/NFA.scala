@@ -1,7 +1,7 @@
 package com.gszeliga.playground.algorithms.strings
 
-import com.gzeliga.playground.algorithms.fundamentals.Bag
-import com.gzeliga.playground.algorithms.graph.{DirectedDFS, DirectedGraph}
+import com.gszeliga.playground.algorithms.fundamentals.Bag
+import com.gszeliga.playground.algorithms.graph.{DirectedDFS, DirectedGraph}
 
 import scala.collection.immutable.Stack
 

@@ -1,7 +1,7 @@
 package com.gszeliga.playground.algorithms.sort
 
 import org.scalatest._
-import com.gzeliga.playground.algorithms.sort._
+import com.gszeliga.playground.algorithms.sort._
 import org.scalatest.junit.JUnitRunner
 import org.junit.runner.RunWith
 

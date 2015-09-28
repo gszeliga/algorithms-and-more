@@ -2,9 +2,9 @@ package com.gszeliga.playground.algorithms.graph
 
 import org.scalatest.FlatSpec
 import org.scalatest.Matchers
-import com.gzeliga.playground.algorithms.graph.EdgeWeightedGraph
-import com.gzeliga.playground.algorithms.graph.KruskalMST
-import com.gzeliga.playground.algorithms.graph.Edge
+import com.gszeliga.playground.algorithms.graph.EdgeWeightedGraph
+import com.gszeliga.playground.algorithms.graph.KruskalMST
+import com.gszeliga.playground.algorithms.graph.Edge
 import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner
 

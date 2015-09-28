@@ -1,10 +1,8 @@
 package com.gszeliga.playground.algorithms.fundamentals
 
-import org.scalatest.FlatSpec
-import org.scalatest.Matchers
 import org.junit.runner.RunWith
+import org.scalatest.{FlatSpec, Matchers}
 import org.scalatest.junit.JUnitRunner
-import com.gzeliga.playground.algorithms.fundamentals.Queue
 
 @RunWith(classOf[JUnitRunner])
 class TestQueue extends FlatSpec with Matchers {

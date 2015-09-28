@@ -4,7 +4,7 @@ import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner
 import org.scalatest.FlatSpec
 import org.scalatest.Matchers
-import com.gzeliga.playground.algorithms.search.LinearProbingHashST
+import com.gszeliga.playground.algorithms.search.LinearProbingHashST
 
 @RunWith(classOf[JUnitRunner])
 class TestLinearProbingHashST extends FlatSpec with Matchers{

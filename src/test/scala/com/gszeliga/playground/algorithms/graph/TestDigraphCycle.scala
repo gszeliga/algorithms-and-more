@@ -4,8 +4,8 @@ import org.scalatest.FlatSpec
 import org.scalatest.Matchers
 import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner
-import com.gzeliga.playground.algorithms.graph.DirectedGraph
-import com.gzeliga.playground.algorithms.graph.DirectedCycle
+import com.gszeliga.playground.algorithms.graph.DirectedGraph
+import com.gszeliga.playground.algorithms.graph.DirectedCycle
 import scala.collection.immutable.Stack
 
 @RunWith(classOf[JUnitRunner])

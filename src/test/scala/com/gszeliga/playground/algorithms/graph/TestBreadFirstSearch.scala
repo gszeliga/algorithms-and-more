@@ -4,8 +4,8 @@ import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner
 import org.scalatest.FlatSpec
 import org.scalatest.Matchers
-import com.gzeliga.playground.algorithms.graph.UndirectedGraph
-import com.gzeliga.playground.algorithms.graph.BreadthFirstSearch
+import com.gszeliga.playground.algorithms.graph.UndirectedGraph
+import com.gszeliga.playground.algorithms.graph.BreadthFirstSearch
 
 @RunWith(classOf[JUnitRunner])
 class TestBreadFirstSearch extends FlatSpec with Matchers {

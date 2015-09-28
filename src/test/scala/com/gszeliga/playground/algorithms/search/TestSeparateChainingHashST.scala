@@ -4,7 +4,7 @@ import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner
 import org.scalatest.Matchers
 import org.scalatest.FlatSpec
-import com.gzeliga.playground.algorithms.search.SeparateChainingHashST
+import com.gszeliga.playground.algorithms.search.SeparateChainingHashST
 
 @RunWith(classOf[JUnitRunner])
 class TestSeparateChainingHashST  extends FlatSpec with Matchers{

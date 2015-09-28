@@ -1,11 +1,11 @@
 package com.gszeliga.playground.algorithms.graph
 
-import com.gzeliga.playground.algorithms.graph.DirectedGraph
+import com.gszeliga.playground.algorithms.graph.DirectedGraph
 import org.scalatest.Matchers
 import org.scalatest.FlatSpec
 import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner
-import com.gzeliga.playground.algorithms.graph.KosarajuStronglyCC
+import com.gszeliga.playground.algorithms.graph.KosarajuStronglyCC
 
 @RunWith(classOf[JUnitRunner])
 class TestKosarajuSCC extends FlatSpec with Matchers {
