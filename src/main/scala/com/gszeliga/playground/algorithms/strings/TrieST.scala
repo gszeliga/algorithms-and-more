@@ -1,20 +1,53 @@
 package com.gszeliga.playground.algorithms.strings
 
+import scala.annotation.tailrec
+
 /**
  * Created by guillermo on 12/10/15.
  */
 class TrieST[V] {
 
-  class Node(var value: Option[V] = None, val next: Array[Node] = new Array[Node](R))
+  case class Node(value: Option[V] = None, next: Array[Node] = new Array[Node](R))
 
   private val R = 256 //Alphabet size
-  private var root: Option[Node] = None;
+  private var root: Option[Node] = None
 
-  def get(key: String): Option[V] = ???
+  def size: Int = {
 
-  private def get(node: Node, key: Int, d: Int): Option[V] = ???
+    def size(count: Int,node:Option[Node]): Int = {
 
-  def put(key: String, value: V) = {
+      node map { n =>
+
+        var c = count
+
+        if(n.value.isDefined)
+          c = c + 1
+
+        n.next.map(Option(_)).filter(_.isDefined).foldLeft(c)(size)
+
+      } getOrElse count
+
+    }
+
+    size(0,root)
+  }
+
+
+  def get(key: String): Option[V] = {
+    get(root, key,0)
+  }
+
+  @tailrec
+  private def get(node: Option[Node], key: String, d: Int): Option[V] = {
+
+    node match {
+      case Some(Node(v,next)) if d == key.length => v
+      case Some(Node(v,next)) => get(Option(next(key(d))),key,d+1)
+      case _ => None
+    }
+  }
+
+  def put(key: String, value: V): Unit = {
     root = put(root, key, value,0)
   }
 
@@ -23,7 +56,7 @@ class TrieST[V] {
     //If node doesn't exist
     if(node.isEmpty && d == key.length)
     {
-      Some(new Node(Some(value)))
+      Some(Node(Some(value)))
     }
     else
     {
@@ -31,13 +64,13 @@ class TrieST[V] {
 
       //If it's the first time we reach this level then create new instance
       if(current.isEmpty)
-        current = Some(new Node)
+        current = Some(Node())
 
       val c = key(d)
       val nextOne = current flatMap  (n => put(Option(n.next(c)),key, value, d+1))
 
       current flatMap { n =>
-         nextOne map {nxt => n.next(c) = nxt; n;}
+        nextOne map {nxt => n.next(c) = nxt; n;}
       }
     }
 
