@@ -1,6 +1,7 @@
 package com.gszeliga.playground.algorithms.strings
 
 import scala.annotation.tailrec
+import scala.collection.immutable.Queue
 
 /**
  * Created by guillermo on 12/10/15.
@@ -34,14 +35,14 @@ class TrieST[V] {
 
 
   def get(key: String): Option[V] = {
-    get(root, key,0)
+    get(root, key,0) flatMap (_.value)
   }
 
   @tailrec
-  private def get(node: Option[Node], key: String, d: Int): Option[V] = {
+  private def get(node: Option[Node], key: String, d: Int): Option[Node] = {
 
     node match {
-      case Some(Node(v,next)) if d == key.length => v
+      case n @ Some(_) if d == key.length => n
       case Some(Node(v,next)) => get(Option(next(key(d))),key,d+1)
       case _ => None
     }
@@ -74,6 +75,27 @@ class TrieST[V] {
       }
     }
 
+  }
+
+  def keysWithPrefix(prefix: String): Seq[String] = {
+    collect(get(root,prefix,0),prefix,Queue.empty[String])
+  }
+
+  def keys = keysWithPrefix("")
+
+  def collect(node: Option[Node], pre: String, queue: Queue[String]): Queue[String] = {
+
+    if(node.isEmpty) queue
+    else
+    {
+      //Add current 'pre' string only when we reached a complete word or term
+      val nq = node.flatMap(_.value.map(_ => queue :+ pre)).getOrElse(queue)
+
+      //for each member of the alphabet from current level, we keep looking for other words
+      (0 until R).foldLeft(nq){(q,chr) => {
+        collect(node flatMap(n => Option(n.next(chr))),pre + chr.toChar,q)
+      }}
+    }
   }
 
 }

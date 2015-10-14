@@ -14,6 +14,13 @@ class TestTrieST extends FlatSpec with Matchers {
     trie.put("entry-1",250)
   }
 
+  it should "support retrieve single key" in {
+    val trie = new TrieST[Int]
+    trie.put("entry-1",250)
+
+    trie.keys should contain("entry-1")
+  }
+
   it should "support fetching single element among one element trie" in {
     val trie = new TrieST[Int]
 
@@ -30,6 +37,27 @@ class TestTrieST extends FlatSpec with Matchers {
 
     trie.get("some-3") shouldBe Some(33)
   }
+
+  it should "support retrieving multiple keys" in {
+    val trie = new TrieST[Int]
+
+    trie.put("entry-1",250)
+    trie.put("some-2",11)
+    trie.put("some-3",33)
+
+    trie.keys should contain allOf("entry-1","some-2","some-3")
+  }
+
+  it should "support retrieving multiple keys using prefix" in {
+    val trie = new TrieST[Int]
+
+    trie.put("entry-1",250)
+    trie.put("some-2",11)
+    trie.put("some-3",33)
+
+    trie.keysWithPrefix("some-") should contain only("some-2","some-3")
+  }
+
 
   it should "retrieve accurate size with a 3-element trie" in {
     val trie = new TrieST[Int]
