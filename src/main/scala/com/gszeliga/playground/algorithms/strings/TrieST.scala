@@ -54,26 +54,47 @@ class TrieST[V] {
 
   private def put(node: Option[Node], key: String, value: V, d: Int): Option[Node] = {
 
-    //If node doesn't exist
-    if(node.isEmpty && d == key.length)
-    {
-      Some(Node(Some(value)))
-    }
-    else
-    {
-      var current = node
+    node match {
+      case None if d == key.length => Some(Node(Some(value)))
+      case Some(Node(None, next)) if d == key.length => Some(Node(Some(value),next))
+      case Some(Node(Some(_), next)) if d == key.length => Some(Node(Some(value),next))
+      case _ => {
 
-      //If it's the first time we reach this level then create new instance
-      if(current.isEmpty)
-        current = Some(Node())
+        var current = node
 
-      val c = key(d)
-      val nextOne = current flatMap  (n => put(Option(n.next(c)),key, value, d+1))
+        //If it's the first time we reach this level then create new instance
+        if(current.isEmpty)
+          current = Some(Node())
 
-      current flatMap { n =>
-        nextOne map {nxt => n.next(c) = nxt; n;}
+        val c = key(d)
+        val nextOne = current flatMap  (n => put(Option(n.next(c)),key, value, d+1))
+
+        current flatMap { n =>
+          nextOne map {nxt => n.next(c) = nxt; n;}
+        }
       }
     }
+
+    /*    //If node doesn't exist
+        if(node.isEmpty && d == key.length)
+        {
+          Some(Node(Some(value)))
+        }
+        else
+        {
+          var current = node
+
+          //If it's the first time we reach this level then create new instance
+          if(current.isEmpty)
+            current = Some(Node())
+
+          val c = key(d)
+          val nextOne = current flatMap  (n => put(Option(n.next(c)),key, value, d+1))
+
+          current flatMap { n =>
+            nextOne map {nxt => n.next(c) = nxt; n;}
+          }
+        }*/
 
   }
 
@@ -96,6 +117,30 @@ class TrieST[V] {
         collect(node flatMap(n => Option(n.next(chr))),pre + chr.toChar,q)
       }}
     }
+  }
+
+  def longestPrefixOf(prefix: String): String =
+  {
+    @tailrec
+    def search(node: Option[Node],s: String, d: Int, length: Int): Int = {
+
+      node match {
+        case None => length
+        case Some(Node(Some(_),_)) if d == s.length => d
+        case Some(Node(value,next)) => {
+          var new_length=length
+
+          if(value.isDefined)
+            new_length = d //Assign current level depth
+
+          search(Option(next(s(d))),s,d+1,new_length)
+
+        }
+      }
+    }
+
+    prefix.substring(0, search(root, prefix,0,0))
+
   }
 
 }

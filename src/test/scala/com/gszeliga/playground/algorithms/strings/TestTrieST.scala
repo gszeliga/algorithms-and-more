@@ -58,6 +58,24 @@ class TestTrieST extends FlatSpec with Matchers {
     trie.keysWithPrefix("some-") should contain only("some-2","some-3")
   }
 
+  it should "support retrieving longest prefix from a sample string" in {
+    val trie = new TrieST[Int]
+
+    trie.put("enrollment",95)
+    trie.put("enroll",33)
+
+    trie.longestPrefixOf("enrollar") shouldBe "enroll"
+  }
+
+  it should "support properly put shorter key contained within a previous longer one" in {
+    val trie = new TrieST[Int]
+
+    trie.put("enrollment",95)
+    trie.put("enroll",33)
+
+    trie.keys should contain allOf("enroll","enrollment")
+  }
+
 
   it should "retrieve accurate size with a 3-element trie" in {
     val trie = new TrieST[Int]
