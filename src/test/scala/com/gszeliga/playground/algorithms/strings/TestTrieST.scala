@@ -120,4 +120,19 @@ class TestTrieST extends FlatSpec with Matchers {
     trie.get("some-7") shouldBe None
   }
 
+  it should "support key deletion" in {
+    val trie = new TrieST[Int]
+
+    trie.put("she",1)
+    trie.put("sells",2)
+    trie.put("sea",3)
+    trie.put("shells",4)
+
+    trie.delete("shells")
+
+    trie.size shouldBe 3
+    trie.get("shells") shouldBe None
+
+  }
+
 }

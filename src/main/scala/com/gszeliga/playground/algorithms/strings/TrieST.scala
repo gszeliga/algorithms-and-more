@@ -56,8 +56,7 @@ class TrieST[V] {
 
     node match {
       case None if d == key.length => Some(Node(Some(value)))
-      case Some(Node(None, next)) if d == key.length => Some(Node(Some(value),next))
-      case Some(Node(Some(_), next)) if d == key.length => Some(Node(Some(value),next))
+      case Some(Node(_, next)) if d == key.length => Some(Node(Some(value),next))
       case _ => {
 
         var current = node
@@ -66,36 +65,19 @@ class TrieST[V] {
         if(current.isEmpty)
           current = Some(Node())
 
-        val c = key(d)
-        val nextOne = current flatMap  (n => put(Option(n.next(c)),key, value, d+1))
+        current flatMap {n =>
+          val currentChar = key(d)
 
-        current flatMap { n =>
-          nextOne map {nxt => n.next(c) = nxt; n;}
+          //Move to next character among key
+          put(Option(n.next(currentChar)),key, value, d+1) map {nextOne =>
+
+            //Assign new node returned by recursion downwards recursion
+            n.next(currentChar) = nextOne
+            n
+          }
         }
       }
     }
-
-    /*    //If node doesn't exist
-        if(node.isEmpty && d == key.length)
-        {
-          Some(Node(Some(value)))
-        }
-        else
-        {
-          var current = node
-
-          //If it's the first time we reach this level then create new instance
-          if(current.isEmpty)
-            current = Some(Node())
-
-          val c = key(d)
-          val nextOne = current flatMap  (n => put(Option(n.next(c)),key, value, d+1))
-
-          current flatMap { n =>
-            nextOne map {nxt => n.next(c) = nxt; n;}
-          }
-        }*/
-
   }
 
   def keysWithPrefix(prefix: String): Seq[String] = {
@@ -112,7 +94,7 @@ class TrieST[V] {
       //Add current 'pre' string only when we reached a complete word or term
       val nq = node.flatMap(_.value.map(_ => queue :+ pre)).getOrElse(queue)
 
-      //for each member of the alphabet from current level, we keep looking for other words
+      //for each member of the alphabet from current level, we keep looking for other words downwards
       (0 until R).foldLeft(nq){(q,chr) => {
         collect(node flatMap(n => Option(n.next(chr))),pre + chr.toChar,q)
       }}
@@ -140,6 +122,34 @@ class TrieST[V] {
     }
 
     prefix.substring(0, search(root, prefix,0,0))
+
+  }
+
+  def delete(key: String): Unit ={
+    root = delete(root, key,0)
+  }
+
+  private def delete(node: Option[Node], key: String, d: Int): Option[Node] = {
+    node match {
+      case Some(Node(_,next)) if d == key.length => {
+        //If still have any nodes below me then just remove value from current node
+        if(next.map(Option(_)).exists(_.isDefined))
+          Some(Node(None,next))
+        else
+        //Otherwise just get rid of current node
+          None
+      }
+      case Some(Node(value,next)) => {
+
+        val character = key(d)
+        next(character) = delete(Option(next(character)), key, d + 1).orNull
+
+        //If still have an associated value or any child nodes
+        if(value.isDefined || next.map(Option(_)).exists(_.isDefined)) Some(Node(value,next))
+        else None
+      }
+      case _ => None
+    }
 
   }
 
