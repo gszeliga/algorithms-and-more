@@ -20,8 +20,8 @@ sealed case class SkipListEntry[V](key: String, value: Option[V]){
 class SkipList[V] {
 
   //Initialize HEAD and TAIL
-  private var head: SkipListEntry[V] = new SkipListEntry(POS_INF,None)
-  private var tail: SkipListEntry[V] = new SkipListEntry(NEG_INF,None)
+  private var head: SkipListEntry[V] = new SkipListEntry(NEG_INF,None)
+  private var tail: SkipListEntry[V] = new SkipListEntry(POS_INF,None)
 
   head.right = Some(tail)
   tail.left = Some(head)
@@ -31,6 +31,8 @@ class SkipList[V] {
 
   //Used to determine the height of a newly added entry, simulating a coin toss experiment
   private var r: () => Double  = Random.nextDouble
+
+  def size = n
 
   private def findEntry(key: String): SkipListEntry[V] = {
 
@@ -50,9 +52,8 @@ class SkipList[V] {
     def searchRight(current: SkipListEntry[V]): SkipListEntry[V] =
     {
       current.right match {
-        case Some(right) if right.key == POS_INF => current
-        case Some(right) if right.key.compareTo(key) <= 0 => searchRight(right)
-        case None => current
+        case Some(right) if right.key != POS_INF && right.key.compareTo(key) <= 0 => searchRight(right)
+        case _ => current
       }
 
     }
@@ -93,14 +94,32 @@ class SkipList[V] {
       }
     }
 
+    def createTopLayer() = {
+      val p1 = new SkipListEntry[V](NEG_INF,None)
+      val p2 = new SkipListEntry[V](POS_INF,None)
+
+      p1.right = Some(p2)
+      p1.down = Some(head)
+
+      p2.left = Some(p1)
+      p2.down = Some(tail)
+
+      head.up = Some(p1)
+      tail.up = Some(p2)
+
+      head = p1
+      tail = p2
+
+      height = height + 1
+
+    }
+
     @tailrec
     def buildUpTower(coinTossValue: Double, currentLevel: Int, p: SkipListEntry[V], q: SkipListEntry[V]): Unit = {
       if(coinTossValue < 0.5){
 
         if(currentLevel >= height)
-        {
-          //TODO Create new TOP layer
-        }
+          createTopLayer()
 
         //Find first element with an UP-link and make 'p' point to it
         val newp = fistWithLinkUp(p).up.get
@@ -175,6 +194,8 @@ class SkipList[V] {
 }
 
 object SkipList {
+
+  def apply[V]() = new SkipList[V]
 
   val NEG_INF = "-oo"
   val POS_INF = "+oo"
