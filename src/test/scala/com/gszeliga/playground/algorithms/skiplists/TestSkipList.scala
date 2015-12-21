@@ -1,6 +1,6 @@
 package com.gszeliga.playground.algorithms.skiplists
 
-import org.scalatest.{Matchers, FlatSpec, FunSuite}
+import org.scalatest.{FlatSpec, Matchers}
 
 /**
  * Created by guillermo on 16/12/15.
@@ -57,5 +57,27 @@ class TestSkipList extends FlatSpec with Matchers {
     list.get("v3") shouldBe Some(37)
 
   }
+
+  it should "allow to remove an existing single entry" in {
+    val list: SkipList[Int] = SkipList()
+
+    list.put("v1",2)
+    list.remove("v1") shouldBe Some(2)
+    list.size shouldBe 0
+  }
+
+  it should "allow to remove an existing single entry among others" in {
+    val list: SkipList[Int] = SkipList()
+
+    list.put("v1",2)
+    list.put("v2",56)
+    list.put("v3",90)
+
+    list.remove("v2") shouldBe Some(56)
+    list.get("v1") shouldBe Some(2)
+    list.get("v3") shouldBe Some(90)
+    list.size shouldBe 2
+  }
+
 
 }

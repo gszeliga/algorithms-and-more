@@ -10,12 +10,24 @@ import scala.util.Random
  */
 
 //http://www.mathcs.emory.edu/~cheung/Courses/323/Syllabus/Map/skip-list-impl.html
+//Cool explanation => http://www.csee.umbc.edu/courses/undergraduate/341/fall01/Lectures/SkipLists/skip_lists/skip_lists.html
 sealed case class SkipListEntry[V](key: String, value: Option[V]){
   var up: Option[SkipListEntry[V]] = None
   var down: Option[SkipListEntry[V]] = None
   var left: Option[SkipListEntry[V]] = None
   var right: Option[SkipListEntry[V]] = None
 }
+
+/*
+*
+* Skip Lists are sorted linked lists with two differences:
+
+    - the nodes in an ordinary list have one 'next' reference. The nodes in a Skip List have many 'next' references (called forward references).
+    - the number of forward references for a given node is determined probabilistically
+
+    It has an expected performance of O(lg n) per operation
+
+* */
 
 class SkipList[V] {
 
@@ -115,7 +127,7 @@ class SkipList[V] {
     }
 
     @tailrec
-    def buildUpTower(coinTossValue: Double, currentLevel: Int, p: SkipListEntry[V], q: SkipListEntry[V]): Unit = {
+    def buildTowerUp(coinTossValue: Double, currentLevel: Int, p: SkipListEntry[V], q: SkipListEntry[V]): Unit = {
       if(coinTossValue < 0.5){
 
         if(currentLevel >= height)
@@ -137,7 +149,7 @@ class SkipList[V] {
         newp.right = Some(e)
         q.up = Some(e) //'q' represent one floor below the current column level
 
-        buildUpTower(r(),currentLevel+1,newp,e)
+        buildTowerUp(r(),currentLevel+1,newp,e)
 
       }
     }
@@ -175,12 +187,12 @@ class SkipList[V] {
         --------------------------------------------------------------- */
 
         //Connect all edges
-        q.left = Some(p)
+        q.left = Some(p) //this is the floor
         q.right = p.right
         p.right.foreach(e => e.left = Some(q))
         p.right = Some(q)
 
-        buildUpTower(r(),0,p,q)
+        buildTowerUp(r(),0,p,q)
 
         //One more element added
         n = n +1
@@ -188,6 +200,36 @@ class SkipList[V] {
         //No result available
         None
       }
+    }
+  }
+
+  def remove(key: String): Option[V] = {
+
+    @tailrec
+    def removeAllTheWayUp(current: Option[SkipListEntry[V]], matchingValue: Option[V]): Option[V]  = {
+
+      if(current.isEmpty) matchingValue
+      else
+      {
+        current.foreach(c => {
+          c.left.foreach(e => e.right = c.right)
+          c.right.foreach(e => e.left = c.left)
+        })
+
+        removeAllTheWayUp(current.flatMap(_.up),matchingValue)
+      }
+
+    }
+
+    findEntry(key) match {
+      case entry @ SkipListEntry(k,v) if k == key => {
+
+        //One element removed
+        n = n - 1
+
+        removeAllTheWayUp(Some(entry),v)
+      }
+      case _ => None
     }
   }
 
