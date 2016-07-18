@@ -18,7 +18,7 @@ class DirectedDFS(private val G: Digraph, sources: Seq[Int]) {
   def dfs(marked: BitSet, source: Int): BitSet = {
 
     val tmp = marked + source
-    G.adj(source).filterNot(tmp).foldLeft(tmp)(dfs(_, _))
+    G.adj(source).filterNot(tmp).foldLeft(tmp)(dfs)
 
   }
 
