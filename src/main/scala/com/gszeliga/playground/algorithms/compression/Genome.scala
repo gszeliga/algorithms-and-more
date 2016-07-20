@@ -26,7 +26,6 @@ object Genome {
   def main(args: Array[String]) {
     if (args(0).equals("-")) compress()
     if (args(0).equals("+")) expand()
-
   }
 
   def compress() = {
