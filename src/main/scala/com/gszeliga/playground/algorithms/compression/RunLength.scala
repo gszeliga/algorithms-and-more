@@ -1,6 +1,7 @@
 package com.gszeliga.playground.algorithms.compression
 
 import com.gszeliga.playground.algorithms.BinaryStdIn.{readBoolean, readChar}
+import com.gszeliga.playground.algorithms.compression.BinaryStdInStreams.{bitsStream, charsStream}
 import com.gszeliga.playground.algorithms.{BinaryStdIn, BinaryStdOut}
 
 /**
@@ -21,27 +22,11 @@ object RunLength {
     if (args(0).equals("+")) expand()
   }
 
-  private def binaryStdInStream[T](next: () => T) = {
-
-    def doRead(): Stream[T] = {
-      if (BinaryStdIn.isEmpty) {
-        BinaryStdIn.close()
-        Stream.empty
-      }
-      else {
-        next() #:: doRead()
-      }
-    }
-
-    doRead()
-
-  }
-
   def expand() = {
 
     val zero = false
 
-    binaryStdInStream(readChar).foldLeft(zero) { (bit, char) => {
+    charsStream.foldLeft(zero) { (bit, char) => {
 
       //Write-out 'bit' char amount of times
       (0 to char).foreach(_ => BinaryStdOut.write(bit))
@@ -52,7 +37,7 @@ object RunLength {
     }
 
     //flush and close
-    BinaryStdOut.close
+    BinaryStdOut.close()
 
   }
 
@@ -60,7 +45,7 @@ object RunLength {
 
     val zero = 0
 
-    val (_, remaining) = binaryStdInStream(readBoolean).foldLeft((false, zero)) { case ((bit, count), value) => {
+    val (_, remaining) = bitsStream.foldLeft((false, zero)) { case ((bit, count), value) =>
 
       //Changes bit?
       if (bit != value) {
@@ -85,13 +70,12 @@ object RunLength {
         }
       }
     }
-    }
 
     //write remaining count
     BinaryStdOut.write(remaining)
 
     //flush and close
-    BinaryStdOut.close
+    BinaryStdOut.close()
 
   }
 
